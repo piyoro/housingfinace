@@ -61,7 +61,9 @@ refresh token 만료시간 : 10분
 |pwd|비밀번호|string|O||
 
 응답
+
 http status 200 정상
+
 http status 400 이미 존재하는 Id입니다.
 
 ## POST http://localhost:9684/user/signin
@@ -70,6 +72,7 @@ http status 400 이미 존재하는 Id입니다.
 |:-------|:-------:|:-------:|:-------:|:-------|
 |userId|id|string|O||
 |pwd|비밀번호|string|O||
+
 응답
 |Key|항목명|type|비고|
 |:-------:|:-------:|:-------:|:-------|
@@ -78,6 +81,7 @@ http status 400 이미 존재하는 Id입니다.
 
 ## GET http://localhost:9684/user/refresh
 토큰 만료 후, /user/signin 응답 refreshToken값을 요청 헤더 Authorization - Bearer Token 타입으로 적용.
+
 응답
 |Key|항목명|type|비고|
 |:-------:|:-------:|:-------:|:-------|
