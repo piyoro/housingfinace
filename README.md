@@ -59,6 +59,7 @@ refresh token 만료시간 : 10분
 |:-------|:-------:|:-------:|:-------:|:-------|
 |userId|id|string|O||
 |pwd|비밀번호|string|O||
+
 응답
 http status 200 정상
 http status 400 이미 존재하는 Id입니다.
