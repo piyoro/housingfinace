@@ -12,10 +12,11 @@
 ## 설치방법
 > IDE(STS, Intellij)
 github repository https://github.com/piyoro/HousingFinance.git 을 clone한 후, gradle 프로젝트로 임포트
+
 > command or terminal
 git clone https://github.com/piyoro/HousingFinance.git 으로 프로젝트 clone
 
-!querydsl Q클래스 generate 필요
+>querydsl Q클래스 generate 필요
 IDE 의 gradle build 태스크를 실행하거나 커맨드창의 프로젝트 경로에서 gradle compileQuerydsl 명령어를 실행하고,
 IDE 의 경우 프로젝트를 새로고침합니다.
 generate 된 java 소스를 ide에서 자동 컴파일 하기 위해 src/main/generated 경로를 build path에 추가해줍니다.   
@@ -28,7 +29,7 @@ HousingFinanceApplication 를 IDE(STS, Intellij) 에서 Run As - Spring Boot App
 > command or terminal
 프로젝트 루트 경로에서 gradle bootRun 실행
 
-## 디비설계
+## DB설계
 - TB_BANK 테이블 : 지원 기관 관리
 - TB_BANK_SUPP_AMT 테이블 : 년도/월 별 지원기관의 지원금액 관리
 - TB_USER 테이블 : 계정 관리 (JWT)
