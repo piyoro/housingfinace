@@ -1,0 +1,112 @@
+buildscript {
+    ext {
+        springBootVersion='2.2.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    } 
+    
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.franzbecker:gradle-lombok:1.8")
+    }
+}
+plugins {
+	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'io.franzbecker.gradle-lombok' version '3.3.0'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+	id 'java'
+}
+
+group = 'com.kakaopay'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+ext {
+    springBootVersion='2.2.4.RELEASE'
+}
+// querydsl 적용
+def querydslSrcDir = 'src/main/generated'
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-core
+    compile group: 'com.querydsl', name: 'querydsl-core', version: '4.2.2'
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.2.2'
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-apt
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.2.2'
+
+    //json web token
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.0'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+    runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.0'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
+    runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.0'
+    
+    
+    compileOnly('org.projectlombok:lombok')
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor (
+	'org.projectlombok:lombok',
+    'com.querydsl:querydsl-apt',
+    'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final',
+    'javax.annotation:javax.annotation-api'
+	)
+	
+    compile('org.springframework.boot:spring-boot-starter-test')
+}
+
+test {
+	useJUnitPlatform()
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += [querydslSrcDir]
+        }
+    }
+}
+project.afterEvaluate {
+
+  project.tasks.compileQuerydsl.options.compilerArgs = [
+          "-proc:only",
+          "-processor", project.querydsl.processors() +
+                  ',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
+  ]
+}

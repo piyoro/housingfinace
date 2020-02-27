@@ -1,0 +1,20 @@
+<configuration>
+    
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %-5level %d{HH:mm:ss.SSS} [%c:%L] %method - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+ 
+    <logger name="com.kakaopay.hf" level="DEBUG"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
